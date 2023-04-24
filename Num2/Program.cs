@@ -11,10 +11,12 @@ void Start()
 {
     int rows = GetNumber("rows");
     int collumns = GetNumber("collumns");
-    int[,] matrix = GetNewMatrix(rows, collumns);
+    int minValue = GetNumber("minValue");
+    int maxValue = GetNumber("maxValue");
+    int[,] matrix = GetNewMatrix(rows, collumns, minValue, maxValue);
     PrintMatrix(matrix);
     int[] array = SumRows(matrix);
-    MinSum(array);
+    MinSum(array, maxValue);
 }
 int GetNumber(string numberName)
 {
@@ -22,7 +24,7 @@ int GetNumber(string numberName)
     int num = Convert.ToInt32(Console.ReadLine());
     return num;
 }
-int[,] GetNewMatrix(int rows, int collumns)
+int[,] GetNewMatrix(int rows, int collumns, int minValue, int maxValue)
 {
     int[,] matrix = new int[rows, collumns];
     Random rand = new Random();
@@ -30,7 +32,7 @@ int[,] GetNewMatrix(int rows, int collumns)
     {
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
-            matrix[i, j] = rand.Next(1, 10);
+            matrix[i, j] = rand.Next(minValue, maxValue);
         }
     }
     return matrix;
@@ -60,11 +62,11 @@ int[] SumRows(int[,] matrix)
     System.Console.WriteLine(" ");
     return array;
 }
-int MinSum(int[] array)
+int MinSum(int[] array, int maxValue)
 {
     int minIndex = 1;
-    int min = array[array.Length - 1];
-    for (int i = 0; i < array.Length - 1; i++)
+    int min = maxValue * array.Length;
+    for (int i = 0; i < array.Length; i++)
     {
         if (array[i] < min)
         {
